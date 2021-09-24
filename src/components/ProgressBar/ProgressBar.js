@@ -10,32 +10,16 @@ const stylesWrapper = {
   small: {
     "--border-radius": "4px",
     "--height": "8px",
+    "--padding": "0px",
   },
   medium: {
     "--border-radius": "4px",
     "--height": "12px",
+    "--padding": "0px",
   },
   large: {
     "--border-radius": "8px",
     "--height": "24px",
-    "--height-inner": "16px",
-    "--padding": "4px",
-  },
-};
-const stylesFiller = {
-  small: {
-    "--border-radius": "4px",
-    "--height": "8px",
-    "--padding": "0px",
-  },
-  medium: {
-    "--border-radius": "4px",
-    "--height": "12px",
-    "--padding": "0px",
-  },
-  large: {
-    "--border-radius": "4px",
-    "--height": "16px",
     "--padding": "4px",
   },
 };
@@ -48,6 +32,8 @@ const ProgressBar = ({ value, size }) => {
     throw new Error(`Only one of the sizes: '${size}'' not in ${SIZES}`);
   }
 
+  let borderRadiusRight = Math.max(0, value - 98) * 2;
+
   return (
     <Wrapper
       style={stylesWrapper[size]}
@@ -56,7 +42,12 @@ const ProgressBar = ({ value, size }) => {
       aria-valuemin="0"
       aria-valuemax="100"
     >
-      <Filler style={{ ...stylesFiller[size], "--width": value + "%" }}>
+      <Filler
+        style={{
+          "--width": value + "%",
+          "--radius-right": borderRadiusRight + "px",
+        }}
+      >
         <VisuallyHidden>{value} of 100</VisuallyHidden>
       </Filler>
     </Wrapper>
@@ -64,23 +55,23 @@ const ProgressBar = ({ value, size }) => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   width: 100%;
   height: var(--height);
   background-color: ${COLORS.transparentGray15};
   box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
   border-radius: var(--border-radius);
+  padding: var(--padding);
 `;
 
 const Filler = styled.div`
-  position: absolute;
-  top: var(--padding);
-  left: var(--padding);
-  height: var(--height);
+  height: 100%;
   width: var(--width);
 
   background-color: ${COLORS.primary};
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: var(--radius-right);
+  border-bottom-right-radius: var(--radius-right);
 `;
 
 export default ProgressBar;
