@@ -32,8 +32,6 @@ const ProgressBar = ({ value, size }) => {
     throw new Error(`Only one of the sizes: '${size}'' not in ${SIZES}`);
   }
 
-  let borderRadiusRight = Math.max(0, value - 98) * 2;
-
   return (
     <Wrapper
       style={stylesWrapper[size]}
@@ -42,14 +40,11 @@ const ProgressBar = ({ value, size }) => {
       aria-valuemin="0"
       aria-valuemax="100"
     >
-      <Filler
-        style={{
-          "--width": value + "%",
-          "--radius-right": borderRadiusRight + "px",
-        }}
-      >
-        <VisuallyHidden>{value} of 100</VisuallyHidden>
-      </Filler>
+      <Trimmer>
+        <Filler style={{ "--width": value + "%" }}>
+          <VisuallyHidden>{value} of 100</VisuallyHidden>
+        </Filler>
+      </Trimmer>
     </Wrapper>
   );
 };
@@ -68,10 +63,13 @@ const Filler = styled.div`
   width: var(--width);
 
   background-color: ${COLORS.primary};
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border-top-right-radius: var(--radius-right);
-  border-bottom-right-radius: var(--radius-right);
+`;
+
+const Trimmer = styled.div`
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
 `;
 
 export default ProgressBar;
