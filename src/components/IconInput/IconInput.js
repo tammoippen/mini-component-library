@@ -16,16 +16,6 @@ const Wrapper = styled.span`
   }
 `;
 
-const LabelWrapper = styled.span`
-  min-width: 130px;
-  display: inline-block;
-  padding-right: 4px;
-  font-weight: 500;
-  font-size: ${20 / 16}rem;
-  color: ${COLORS.black};
-  vertical-align: bottom;
-`;
-
 const MyIcon = styled(Icon)`
   position: absolute;
   left: 0;
@@ -86,7 +76,7 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
 
   return (
     <label>
-      <LabelWrapper>{label}</LabelWrapper>
+      <VisuallyHidden>{label}</VisuallyHidden>
       <Wrapper
         style={{
           "--width": width + "px",
